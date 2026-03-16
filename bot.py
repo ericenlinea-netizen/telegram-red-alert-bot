@@ -5,7 +5,7 @@ api_id = int(os.environ["API_ID"])
 api_hash = os.environ["API_HASH"]
 phone = os.environ["PHONE"]
 
-canal = os.environ["CANAL"]
+canal = int(os.environ["CANAL"])
 
 contador_green = 0
 esperando_green = False
