@@ -9,6 +9,7 @@ canal = int(os.environ["CANAL"])
 
 contador_green = 0
 esperando_green = False
+await enviar("✅ BOT FUNCIONANDO")
 
 client = TelegramClient('session', api_id, api_hash)
 
@@ -17,19 +18,23 @@ async def detectar(event):
     global contador_green, esperando_green
 
     texto = event.raw_text.upper()
-    texto = "RED"
 
     if "RED" in texto:
         esperando_green = True
         contador_green = 0
-        await client.send_message(int(os.environ["MI_ID"]), "🚨 ALERTA: SALIÓ RED")
+        async def enviar(mensaje):
+    dialogs = await client.get_dialogs()
+    for dialog in dialogs:
+        if dialog.name == "Alertas Ruleta":
+await enviar("🚨 ALERTA: SALIÓ RED")
+break
 
     if esperando_green and "GREEN" in texto:
         contador_green += 1
 
         if contador_green == 3:
-            await client.send_message(int(os.environ["MI_ID"]), "✅ SALIERON 3 GREEN DESPUÉS DEL RED")
-            esperando_green = False
+await enviar("✅ SALIERON 3 GREEN DESPUÉS DEL RED")
+esperando_green = False
             contador_green = 0
 
 client.start(phone)
