@@ -17,6 +17,7 @@ async def detectar(event):
     global contador_green, esperando_green
 
     texto = event.raw_text.upper()
+    texto = "RED"
 
     if "RED" in texto:
         esperando_green = True
