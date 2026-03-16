@@ -26,8 +26,8 @@ async def detectar(event):
     dialogs = await client.get_dialogs()
     for dialog in dialogs:
         if dialog.name == "Alertas Ruleta":
-await enviar("🚨 ALERTA: SALIÓ RED")
-break
+            await client.send_message(dialog.id, mensaje)
+            break
 
     if esperando_green and "GREEN" in texto:
         contador_green += 1
