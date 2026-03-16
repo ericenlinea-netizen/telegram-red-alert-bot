@@ -1,10 +1,10 @@
 from telethon import TelegramClient, events
 
 # CONFIGURACIÓN (la completaremos luego)
-api_id = 123456
-api_hash = "API_HASH_AQUI"
+api_id = 35915827
+api_hash = "780bf641de72477aa9330687c3a6ea40"
 
-canal = "nombre_del_canal"
+canal = "Allan Bot - Ruleta | 🌎"
 
 contador_green = 0
 esperando_green = False
