@@ -21,13 +21,13 @@ async def detectar(event):
     if "RED" in texto:
         esperando_green = True
         contador_green = 0
-        await client.send_message("me","🚨 ALERTA: SALIÓ RED")
+        await client.send_message(int(os.environ["MI_ID"]), "🚨 ALERTA: SALIÓ RED")
 
     if esperando_green and "GREEN" in texto:
         contador_green += 1
 
         if contador_green == 3:
-            await client.send_message("me","✅ SALIERON 3 GREEN DESPUÉS DEL RED")
+            await client.send_message(int(os.environ["MI_ID"]), "✅ SALIERON 3 GREEN DESPUÉS DEL RED")
             esperando_green = False
             contador_green = 0
 
