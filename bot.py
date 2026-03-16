@@ -18,12 +18,12 @@ async def detectar(event):
 
     texto = event.raw_text.upper()
 
-    if "RED" in texto or "❌" in texto:
+    if "RED" in texto:
         esperando_green = True
         contador_green = 0
         await client.send_message("me","🚨 ALERTA: SALIÓ RED")
 
-    if esperando_green and ("GREEN" in texto or "🟢" in texto):
+    if esperando_green and "GREEN" in texto:
         contador_green += 1
 
         if contador_green == 3:
