@@ -26,34 +26,34 @@ async def enviar(mensaje):
 async def detectar(event):
     global contador_green, esperando_green
 
+    # FILTRO DEL CANAL
     if event.chat_id != canal:
         return
 
     texto = event.raw_text.upper()
-  
-    
-# detectar RED
-if "RED" in texto:
-    esperando_green = True
-    contador_green = 0
-    await enviar("🚨 ALERTA: SALIÓ RED")
-    return  # importante
+    print("Mensaje:", texto)
 
-# detectar GREEN solo después de RED
-if esperando_green:
-
-    if "GREEN" in texto:
-        contador_green += 1
-        print("GREEN detectado:", contador_green)
-
-        if contador_green >= 3:
-            await enviar("✅ YA VAN 3 GREEN DESPUÉS DEL RED")
-            esperando_green = False
-            contador_green = 0
-
-    # si aparece otro RED reinicia
-    elif "RED" in texto:
+    # detectar RED
+    if "RED" in texto:
+        esperando_green = True
         contador_green = 0
+        await enviar("🚨 ALERTA: SALIÓ RED")
+        return
+
+    # detectar GREEN solo después de RED
+    if esperando_green:
+
+        if "GREEN" in texto:
+            contador_green += 1
+            print("GREEN detectado:", contador_green)
+
+            if contador_green >= 3:
+                await enviar("✅ YA VAN 3 GREEN DESPUÉS DEL RED")
+                esperando_green = False
+                contador_green = 0
+
+        elif "RED" in texto:
+            contador_green = 0
 
 
 client.start(phone)
