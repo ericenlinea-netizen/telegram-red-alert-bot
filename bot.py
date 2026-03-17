@@ -22,9 +22,12 @@ async def enviar(mensaje):
             return
 
 
-@client.on(events.NewMessage(chats=canal))
+@client.on(events.NewMessage)
 async def detectar(event):
     global contador_green, esperando_green
+
+    if event.chat_id != canal:
+    return
 
     texto = event.raw_text.upper()
     # PRUEBA
