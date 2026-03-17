@@ -47,5 +47,15 @@ async def detectar(event):
 
 
 client.start(phone)
+
+async def inicio():
+    dialogs = await client.get_dialogs()
+    for dialog in dialogs:
+        if dialog.name == "Alertas Eric":
+            await client.send_message(dialog.id, "🚀 BOT INICIADO CORRECTAMENTE")
+            return
+
+client.loop.run_until_complete(inicio())
+
 print("Bot monitoreando canal...")
 client.run_until_disconnected()
