@@ -30,8 +30,7 @@ async def detectar(event):
         return
 
     texto = event.raw_text.upper()
-    # PRUEBA
-    await enviar("✅ BOT FUNCIONANDO")
+  
     
     # detectar RED
     if "RED" in texto:
