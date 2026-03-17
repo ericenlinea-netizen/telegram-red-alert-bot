@@ -27,7 +27,9 @@ async def detectar(event):
     global contador_green, esperando_green
 
     texto = event.raw_text.upper()
-
+    # PRUEBA
+    await enviar("✅ BOT FUNCIONANDO")
+    
     # detectar RED
     if "RED" in texto:
         esperando_green = True
