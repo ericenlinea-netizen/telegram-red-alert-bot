@@ -17,7 +17,7 @@ client = TelegramClient('session', api_id, api_hash)
 async def enviar(mensaje):
     dialogs = await client.get_dialogs()
     for dialog in dialogs:
-        if dialog.name == "Alertas Ruleta":
+        if dialog.name == "Alertas Eric":
             await client.send_message(dialog.id, mensaje)
             return
 
