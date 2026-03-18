@@ -5,10 +5,7 @@ api_id = int(os.environ["API_ID"])
 api_hash = os.environ["API_HASH"]
 phone = os.environ["PHONE"]
 
-canales = [
-    int(os.environ["CANAL"]),   # canal 1 (el de RED/GREEN)
-    -1002355358446             # canal 2
-]
+canal = int(os.environ["CANAL"])
 
 contador_green = 0
 esperando_green = False
@@ -28,23 +25,12 @@ async def enviar(mensaje):
 @client.on(events.NewMessage)
 async def detectar(event):
 
-    # ===== CANAL 2 =====
-    if event.chat_id == -1002355358446:
 
-        texto = event.raw_text.upper()
-
-        if "7 GANADAS" in texto:
-            await enviar("📢 En el canal 2 van 7 ganadas seguidas")
-
-        if "10 GANADAS" in texto:
-            await enviar("🎯 Objetivo cumplido canal 2")
-
-        return
         
     global contador_green, esperando_green
 
     # FILTRO DEL CANAL
-    if event.chat_id not in canales:
+    if event.chat_id != canal:
         return
 
     texto = event.raw_text.upper()
