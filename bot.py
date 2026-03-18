@@ -33,27 +33,33 @@ async def detectar(event):
     texto = event.raw_text.upper()
     print("Mensaje:", texto)
 
-    # detectar RED
+    # 🔴 NUEVO RED (reinicia todo)
     if "RED" in texto:
+        if esperando_green:
+            # Si ya estaba contando y aparece RED → falló
+            await enviar("❌ OBJETIVO NO CUMPLIDO")
+
         esperando_green = True
         contador_green = 0
         await enviar("🚨 ALERTA: SALIÓ RED")
         return
 
-    # detectar GREEN solo después de RED
+    # 🟢 SOLO SI ESTAMOS EN MODO SEGUIMIENTO
     if esperando_green:
 
         if "GREEN" in texto:
             contador_green += 1
             print("GREEN detectado:", contador_green)
 
-            if contador_green >= 3:
-                await enviar("✅ YA VAN 3 GREEN DESPUÉS DEL RED")
+            # aviso de 3
+            if contador_green == 3:
+                await enviar("✅ YA VAN 3 GREEN")
+
+            # 🎯 OBJETIVO CUMPLIDO
+            if contador_green >= 5:
+                await enviar("🎯 OBJETIVO CUMPLIDO (5 GREEN)")
                 esperando_green = False
                 contador_green = 0
-
-        elif "RED" in texto:
-            contador_green = 0
 
 
 client.start(phone)
