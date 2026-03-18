@@ -31,7 +31,7 @@ async def detectar(event):
     # ===== CANAL 2 =====
     if event.chat_id == -1002355358446:
 
-        texto = "7 GANADAS"
+        texto = event.raw_text.upper()
 
         if "7 GANADAS" in texto:
             await enviar("📢 En el canal 2 van 7 ganadas seguidas")
