@@ -24,9 +24,6 @@ async def enviar(mensaje):
 
 @client.on(events.NewMessage)
 async def detectar(event):
-
-
-        
     global contador_green, esperando_green
 
     # FILTRO DEL CANAL
@@ -36,10 +33,9 @@ async def detectar(event):
     texto = event.raw_text.upper()
     print("Mensaje:", texto)
 
-    # 🔴 NUEVO RED (reinicia todo)
+    # 🔴 RED
     if "RED" in texto:
         if esperando_green:
-            # Si ya estaba contando y aparece RED → falló
             await enviar("❌ OBJETIVO NO CUMPLIDO")
 
         esperando_green = True
@@ -47,22 +43,22 @@ async def detectar(event):
         await enviar("🚨 ALERTA: SALIÓ RED")
         return
 
-    # 🟢 SOLO SI ESTAMOS EN MODO SEGUIMIENTO
+    # 🟢 GREEN
     if esperando_green:
 
         if "GREEN" in texto:
             contador_green += 1
             print("GREEN detectado:", contador_green)
 
-            # aviso de 4
-if contador_green == 4:
-    await enviar("📢 YA VAN 4 GREEN")
+            # aviso en 4
+            if contador_green == 4:
+                await enviar("📢 YA VAN 4 GREEN")
 
-# objetivo cumplido en 6
-if contador_green >= 6:
-    await enviar("🎯 OBJETIVO CUMPLIDO (6 GREEN)")
-    esperando_green = False
-    contador_green = 0
+            # objetivo en 6
+            if contador_green >= 6:
+                await enviar("🎯 OBJETIVO CUMPLIDO (6 GREEN)")
+                esperando_green = False
+                contador_green = 0
 
 
 client.start(phone)
