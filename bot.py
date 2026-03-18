@@ -44,7 +44,7 @@ async def detectar(event):
     global contador_green, esperando_green
 
     # FILTRO DEL CANAL
-    if event.chat_id != canal:
+    if event.chat_id not in canales:
         return
 
     texto = event.raw_text.upper()
