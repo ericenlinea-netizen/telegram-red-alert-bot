@@ -61,8 +61,8 @@ if contador_green == 4:
 # objetivo cumplido en 6
 if contador_green >= 6:
     await enviar("🎯 OBJETIVO CUMPLIDO (6 GREEN)")
-                esperando_green = False
-                contador_green = 0
+    esperando_green = False
+    contador_green = 0
 
 
 client.start(phone)
