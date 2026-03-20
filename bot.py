@@ -44,21 +44,22 @@ async def detectar(event):
         return
 
     # 🟢 GREEN
-    if esperando_green:
+   # 🟢 GREEN
+if esperando_green:
 
-        if "GREEN" in texto:
-            contador_green += 1
-            print("GREEN detectado:", contador_green)
+    if "GREEN" in texto:
+        contador_green += 1
+        print("GREEN detectado:", contador_green)
 
-            # aviso en 3
-if contador_green == 3:
-    await enviar("📢 YA VAN 3 GREEN")
+        # aviso en 3
+        if contador_green == 3:
+            await enviar("📢 YA VAN 3 GREEN")
 
-# objetivo en 5
-if contador_green >= 5:
-    await enviar("🎯 OBJETIVO CUMPLIDO (5 GREEN)")
-    esperando_green = False
-    contador_green = 0
+        # objetivo en 5
+        if contador_green >= 5:
+            await enviar("🎯 OBJETIVO CUMPLIDO (5 GREEN)")
+            esperando_green = False
+            contador_green = 0
 
 
 client.start(phone)
