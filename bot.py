@@ -19,18 +19,6 @@ escenario2_objetivo = False
 escenario3_aviso = False
 escenario3_objetivo = False
 
-client = TelegramClient('session', api_id, api_hash)
-
-
-# función para enviar al grupo
-async def enviar(mensaje):
-    dialogs = await client.get_dialogs()
-    for dialog in dialogs:
-        if dialog.name == "Alertas Eric":
-            await client.send_message(dialog.id, mensaje)
-            return
-
-
 @client.on(events.NewMessage)
 async def detectar(event):
     global contador_green, esperando_green
@@ -46,30 +34,28 @@ async def detectar(event):
     print("Mensaje:", texto)
 
     # 🔴 RED
-
-    # reset escenarios
-escenario1_aviso = False
-escenario1_objetivo = False
-
-escenario2_aviso = False
-escenario2_objetivo = False
-
-escenario3_aviso = False
-escenario3_objetivo = False
-
     if "RED" in texto:
         if esperando_green:
             await enviar("❌ OBJETIVO NO CUMPLIDO")
 
         esperando_green = True
         contador_green = 0
+
+        # reset escenarios
+        escenario1_aviso = False
+        escenario1_objetivo = False
+
+        escenario2_aviso = False
+        escenario2_objetivo = False
+
+        escenario3_aviso = False
+        escenario3_objetivo = False
+
         await enviar("🚨 ALERTA: SALIÓ RED")
         return
 
-# 🟢 GREEN
-if esperando_green:
-
-    if "GREEN" in texto:
+    # 🟢 GREEN
+    if esperando_green and "GREEN" in texto:
         contador_green += 1
         print("GREEN detectado:", contador_green)
 
