@@ -35,6 +35,7 @@ async def enviar(mensaje):
 # 🧠 EVENTO PRINCIPAL
 @client.on(events.NewMessage)
 async def detectar(event):
+    print("CHAT ID:", event.chat_id)
     global contador_green, esperando_green
     global escenario1_aviso, escenario1_objetivo
     global escenario2_aviso, escenario2_objetivo
