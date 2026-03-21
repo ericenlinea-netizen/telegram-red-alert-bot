@@ -1,15 +1,19 @@
 import os
 from telethon import TelegramClient, events
 
+# 🔑 VARIABLES DE ENTORNO
 api_id = int(os.environ["API_ID"])
 api_hash = os.environ["API_HASH"]
 phone = os.environ["PHONE"]
 
-canal = int(os.environ["CANAL"])
+canal = int(os.environ["CANAL"])   # canal que monitorea
+grupo = int(os.environ["GRUPO"])   # grupo donde envía alertas
 
+# 📊 VARIABLES DE CONTROL
 contador_green = 0
 esperando_green = False
 
+# 🎯 ESCENARIOS
 escenario1_aviso = False
 escenario1_objetivo = False
 
@@ -19,6 +23,16 @@ escenario2_objetivo = False
 escenario3_aviso = False
 escenario3_objetivo = False
 
+# 🤖 CLIENTE TELEGRAM
+client = TelegramClient('session', api_id, api_hash)
+
+
+# 📤 FUNCIÓN PARA ENVIAR MENSAJES
+async def enviar(mensaje):
+    await client.send_message(grupo, mensaje)
+
+
+# 🧠 EVENTO PRINCIPAL
 @client.on(events.NewMessage)
 async def detectar(event):
     global contador_green, esperando_green
@@ -41,7 +55,7 @@ async def detectar(event):
         esperando_green = True
         contador_green = 0
 
-        # reset escenarios
+        # RESET ESCENARIOS
         escenario1_aviso = False
         escenario1_objetivo = False
 
@@ -59,7 +73,7 @@ async def detectar(event):
         contador_green += 1
         print("GREEN detectado:", contador_green)
 
-        # 🔹 ESCENARIO 1
+        # 🔹 ESCENARIO 1 (2 → aviso / 4 → objetivo)
         if contador_green == 2 and not escenario1_aviso:
             await enviar("📢 ESCENARIO 1: 2 GREEN")
             escenario1_aviso = True
@@ -68,7 +82,7 @@ async def detectar(event):
             await enviar("🎯 ESCENARIO 1 CUMPLIDO (4 GREEN)")
             escenario1_objetivo = True
 
-        # 🔹 ESCENARIO 2
+        # 🔹 ESCENARIO 2 (3 → aviso / 5 → objetivo)
         if contador_green == 3 and not escenario2_aviso:
             await enviar("📢 ESCENARIO 2: 3 GREEN")
             escenario2_aviso = True
@@ -77,7 +91,7 @@ async def detectar(event):
             await enviar("🎯 ESCENARIO 2 CUMPLIDO (5 GREEN)")
             escenario2_objetivo = True
 
-        # 🔹 ESCENARIO 3
+        # 🔹 ESCENARIO 3 (2 → aviso / 3 → objetivo)
         if contador_green == 2 and not escenario3_aviso:
             await enviar("📢 ESCENARIO 3: 2 GREEN")
             escenario3_aviso = True
@@ -87,14 +101,11 @@ async def detectar(event):
             escenario3_objetivo = True
 
 
+# 🚀 INICIO DEL BOT
 client.start(phone)
 
 async def inicio():
-    dialogs = await client.get_dialogs()
-    for dialog in dialogs:
-        if dialog.name == "Alertas Eric":
-            await client.send_message(dialog.id, "🚀 BOT INICIADO CORRECTAMENTE")
-            return
+    await enviar("🚀 BOT INICIADO CORRECTAMENTE")
 
 client.loop.run_until_complete(inicio())
 
